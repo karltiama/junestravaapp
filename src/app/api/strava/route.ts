@@ -37,37 +37,37 @@ export async function POST(req: NextRequest) {
 	const stats = await statsRequest.json();
 
 	// activities
-	const activityUrl = "https://www.strava.com/api/v3/athlete/activities";
+	// const activityUrl = "https://www.strava.com/api/v3/athlete/activities";
 
-	// (Jan 2021 - Dec 2022)
-	const activityParams = new URLSearchParams({
-		after: "1609459200", // 01/01/2021
-		before: "1672527600", // 31/12/2022
-		per_page: "200",
-		access_token: accessToken,
-	});
+	// // (Jan 2021 - Dec 2022)
+	// const activityParams = new URLSearchParams({
+	// 	after: "1609459200", // 01/01/2021
+	// 	before: "1672527600", // 31/12/2022
+	// 	per_page: "200",
+	// 	access_token: accessToken,
+	// });
 
-	const activitiesRequest = await fetch(
-		`${activityUrl}?${activityParams.toString()}`
-	);
-	const activities = await activitiesRequest.json();
+	// const activitiesRequest = await fetch(
+	// 	`${activityUrl}?${activityParams.toString()}`
+	// );
+	// const activities = await activitiesRequest.json();
 
-	// (Jan 2023 - Dec 2024)
-	const activityParams2 = new URLSearchParams({
-		after: "1672531200", // 01/01/2023
-		before: "1735686000", // 31/12/2024
-		per_page: "200",
-		access_token: accessToken,
-	});
+	// // (Jan 2023 - Dec 2024)
+	// const activityParams2 = new URLSearchParams({
+	// 	after: "1672531200", // 01/01/2023
+	// 	before: "1735686000", // 31/12/2024
+	// 	per_page: "200",
+	// 	access_token: accessToken,
+	// });
 
-	const activitiesRequest2 = await fetch(
-		`${activityUrl}?${activityParams2.toString()}`
-	);
-	const activities2 = await activitiesRequest2.json();
+	// const activitiesRequest2 = await fetch(
+	// 	`${activityUrl}?${activityParams2.toString()}`
+	// );
+	// const activities2 = await activitiesRequest2.json();
 
 	return NextResponse.json({
 		stats,
-		activities,
-		activities2,
+		// activities,
+		// activities2,
 	});
 }
