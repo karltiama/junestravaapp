@@ -37,10 +37,10 @@ const TestStrava = () => {
 				<div>
 					<h3>Stats:</h3>
 					<pre>{JSON.stringify(data.stats, null, 2)}</pre>
-					<h3>Activities (2021-2022):</h3>
+					{/* <h3>Activities (2021-2022):</h3>
 					<pre>{JSON.stringify(data.activities, null, 2)}</pre>
 					<h3>Activities (2023-2024):</h3>
-					<pre>{JSON.stringify(data.activities2, null, 2)}</pre>
+					<pre>{JSON.stringify(data.activities2, null, 2)}</pre> */}
 				</div>
 			)}
 		</div>
