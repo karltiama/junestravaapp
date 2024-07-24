@@ -1,4 +1,4 @@
-import TestStrava from "./components/text-strava";
+import TestStrava from "@/components/text-strava";
 
 export default function Home() {
 	return (
