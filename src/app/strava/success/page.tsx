@@ -34,6 +34,10 @@ const StravaSuccess = () => {
 	return (
 		<div>
 			<h1>Strava Data</h1>
+			<h2>Athlete Info:</h2>
+			<pre>{JSON.stringify(data.athlete, null, 2)}</pre>
+			<h2>Athlete Stats:</h2>
+			<pre>{JSON.stringify(data.athleteStats, null, 2)}</pre>
 			<h2>Activities (2021-2022):</h2>
 			<pre>{JSON.stringify(data.activities, null, 2)}</pre>
 			<h2>Activities (2023-2024):</h2>
