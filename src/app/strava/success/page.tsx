@@ -1,5 +1,4 @@
 "use client";
-
 import { useEffect, useState } from "react";
 
 const StravaSuccess = () => {
@@ -14,6 +13,7 @@ const StravaSuccess = () => {
 					throw new Error("Failed to fetch data from Strava API");
 				}
 				const result = await response.json();
+				console.log("Fetched data:", result); // Log the data to inspect it
 				setData(result);
 			} catch (error: any) {
 				setError(error.message);
@@ -34,8 +34,8 @@ const StravaSuccess = () => {
 	return (
 		<div>
 			<h1>Strava Data</h1>
-			<h2>Stats:</h2>
-			<pre>{JSON.stringify(data.stats, null, 2)}</pre>
+			<h2>Activities (2021-2022):</h2>
+			<pre>{JSON.stringify(data.activities, null, 2)}</pre>
 			<h2>Activities (2023-2024):</h2>
 			<pre>{JSON.stringify(data.activities2, null, 2)}</pre>
 		</div>
