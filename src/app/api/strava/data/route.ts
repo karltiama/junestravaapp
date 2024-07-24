@@ -30,9 +30,9 @@ export async function GET(req: NextRequest) {
 			);
 		}
 
-		// Fetch activities for Jan 2021 - Dec 2022
+		// Fetch activities for Jan 2023 - Dec 2024
 		const activitiesResponse = await fetch(
-			"https://www.strava.com/api/v3/athlete/activities?after=1609459200&before=1672527600&per_page=10",
+			"https://www.strava.com/api/v3/athlete/activities?after=1672531200&before=1735686000&per_page=10",
 			{
 				headers: {
 					Authorization: `Bearer ${accessToken}`,
@@ -43,7 +43,7 @@ export async function GET(req: NextRequest) {
 		if (!activitiesResponse.ok) {
 			const error = await activitiesResponse.json();
 			return NextResponse.json(
-				{ error: "Failed to fetch activities (2021-2022)", details: error },
+				{ error: "Failed to fetch activities (2023-2024)", details: error },
 				{ status: activitiesResponse.status }
 			);
 		}
@@ -51,33 +51,11 @@ export async function GET(req: NextRequest) {
 		const activities = await activitiesResponse.json();
 		const filteredActivities = activities.map(filterActivityData);
 
-		// Fetch activities for Jan 2023 - Dec 2024
-		const activitiesResponse2 = await fetch(
-			"https://www.strava.com/api/v3/athlete/activities?after=1672531200&before=1735686000&per_page=10",
-			{
-				headers: {
-					Authorization: `Bearer ${accessToken}`,
-				},
-			}
-		);
-
-		if (!activitiesResponse2.ok) {
-			const error = await activitiesResponse2.json();
-			return NextResponse.json(
-				{ error: "Failed to fetch activities (2023-2024)", details: error },
-				{ status: activitiesResponse2.status }
-			);
-		}
-
-		const activities2 = await activitiesResponse2.json();
-		const filteredActivities2 = activities2.map(filterActivityData);
-
-		// Log activities2 to the console
-		console.log("Activities (2023-2024):", filteredActivities2);
+		// Log activities to the console
+		console.log("Activities (2023-2024):", filteredActivities);
 
 		return NextResponse.json({
 			activities: filteredActivities,
-			activities2: filteredActivities2,
 		});
 	} catch (error) {
 		console.error("Internal Server Error", error);
