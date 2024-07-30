@@ -19,13 +19,10 @@ export default function RootLayout({
 	return (
 		<html lang="en" className="scroll-pt-[3.5rem]">
 			<body
-				className={cn(
-					"min-h-screen bg-background font-sans antialiased",
-					inter.variable
-				)}>
-				<div className="relative flex min-h-dvh flex-col bg-background">
+				className={cn("min-h-screen font-sans antialiased", inter.variable)}>
+				<div className="relative">
 					<SiteHeader />
-					<main className="flex-1">{children}</main>
+					<main>{children}</main>
 					<footer></footer>
 				</div>
 			</body>
