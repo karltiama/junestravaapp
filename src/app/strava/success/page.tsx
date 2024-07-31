@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 const StravaSuccess = () => {
 	const [data, setData] = useState<any>(null);
 	const [error, setError] = useState<string | null>(null);
+	const [loading, setLoading] = useState<boolean>(true);
 
 	useEffect(() => {
 		const fetchData = async () => {
@@ -24,6 +25,9 @@ const StravaSuccess = () => {
 		fetchData();
 	}, []);
 
+	if (loading) {
+		return <div>Loading...</div>;
+	}
 	if (error) {
 		return <div>Error: {error}</div>;
 	}
@@ -34,9 +38,6 @@ const StravaSuccess = () => {
 
 	return (
 		<div className="flex flex-col items-center m-8">
-			{/* <h1>Strava Data</h1>
-			<pre>{JSON.stringify(data.athlete, null, 2)}</pre>
-			<pre>{JSON.stringify(data.athleteStats, null, 2)}</pre> */}
 			<StravaStats
 				firstName={data.athlete.firstname}
 				profilePicture={data.athlete.profile_medium}
@@ -53,15 +54,11 @@ const StravaSuccess = () => {
 				bikeRecentCount={data.athleteStats.recent_ride_totals.count}
 				bikeRecentDistance={data.athleteStats.recent_ride_totals.distance}
 			/>
-			{/* <h1>Welcome{data.athlete.firstname}</h1>
-			<h2>Athlete Info:</h2>
-			<pre>{JSON.stringify(data.athlete, null, 2)}</pre>
-			<h2>Athlete Stats:</h2>
-			<pre>{JSON.stringify(data.athleteStats, null, 2)}</pre>
-			<h2>Activities (2021-2022):</h2>
+
+			{/* <h2>Activities (2021-2022):</h2>
 			<pre>{JSON.stringify(data.activities, null, 2)}</pre>
 			<h2>Activities (2023-2024):</h2>
-			<pre>{JSON.stringify(data.activities2, null, 2)}</pre> */}
+			<pre>{JSON.stringify(data.activities2, null, 2)}</pre>  */}
 		</div>
 	);
 };
