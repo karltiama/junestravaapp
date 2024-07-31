@@ -1,7 +1,22 @@
+import Image from "next/image";
+import Link from "next/link";
+import { Button } from "./ui/button";
+
 export function SiteHeader() {
 	return (
-		<header className="z-10 sticky top-0 w-full border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-			<div className="container flex h-14 max-w-screen-2xl items-center"></div>
+		<header className="w-full absolute z-10">
+			<nav className="max-w-[1400px] mx-auto flex items-center sm:px-16 px-4 py-4">
+				<Link href="/" className="flex justify-center items-center">
+					<Image
+						src="/person-running-solid.svg"
+						alt="Running Logo"
+						width={24}
+						height={24}
+						className="object-contain"
+					/>
+				</Link>
+				{/* <Button variant="default">Sign in</Button> */}
+			</nav>
 		</header>
 	);
 }

@@ -1,4 +1,5 @@
 "use client";
+import StravaStats from "@/components/StravaStats";
 import { useEffect, useState } from "react";
 
 const StravaSuccess = () => {
@@ -34,6 +35,12 @@ const StravaSuccess = () => {
 	return (
 		<div>
 			<h1>Strava Data</h1>
+			<pre>{JSON.stringify(data.athlete, null, 2)}</pre>
+			<StravaStats
+				firstname={data.athlete.firstname}
+				profilePicture={data.athlete.profile_medium}
+			/>
+			{/* <h1>Welcome{data.athlete.firstname}</h1>
 			<h2>Athlete Info:</h2>
 			<pre>{JSON.stringify(data.athlete, null, 2)}</pre>
 			<h2>Athlete Stats:</h2>
@@ -41,7 +48,7 @@ const StravaSuccess = () => {
 			<h2>Activities (2021-2022):</h2>
 			<pre>{JSON.stringify(data.activities, null, 2)}</pre>
 			<h2>Activities (2023-2024):</h2>
-			<pre>{JSON.stringify(data.activities2, null, 2)}</pre>
+			<pre>{JSON.stringify(data.activities2, null, 2)}</pre> */}
 		</div>
 	);
 };
