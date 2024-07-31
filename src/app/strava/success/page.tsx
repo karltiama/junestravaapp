@@ -33,12 +33,25 @@ const StravaSuccess = () => {
 	}
 
 	return (
-		<div>
-			<h1>Strava Data</h1>
+		<div className="flex flex-col items-center m-8">
+			{/* <h1>Strava Data</h1>
 			<pre>{JSON.stringify(data.athlete, null, 2)}</pre>
+			<pre>{JSON.stringify(data.athleteStats, null, 2)}</pre> */}
 			<StravaStats
-				firstname={data.athlete.firstname}
+				firstName={data.athlete.firstname}
 				profilePicture={data.athlete.profile_medium}
+				runTotalCount={data.athleteStats.all_run_totals.count}
+				runTotalDistance={data.athleteStats.all_run_totals.distance}
+				runYtdCount={data.athleteStats.ytd_run_totals.count}
+				runYtdDistance={data.athleteStats.ytd_run_totals.distance}
+				runRecentCount={data.athleteStats.recent_run_totals.count}
+				runRecentDistance={data.athleteStats.recent_run_totals.distance}
+				bikeTotalCount={data.athleteStats.all_ride_totals.count}
+				bikeTotalDistance={data.athleteStats.all_ride_totals.distance}
+				bikeYtdCount={data.athleteStats.ytd_ride_totals.count}
+				bikeYtdDistance={data.athleteStats.ytd_ride_totals.distance}
+				bikeRecentCount={data.athleteStats.recent_ride_totals.count}
+				bikeRecentDistance={data.athleteStats.recent_ride_totals.distance}
 			/>
 			{/* <h1>Welcome{data.athlete.firstname}</h1>
 			<h2>Athlete Info:</h2>
