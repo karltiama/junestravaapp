@@ -5,10 +5,11 @@ import { useEffect, useState } from "react";
 const StravaSuccess = () => {
 	const [data, setData] = useState<any>(null);
 	const [error, setError] = useState<string | null>(null);
-	const [loading, setLoading] = useState<boolean>(true);
+	const [loading, setLoading] = useState(true);
 
 	useEffect(() => {
 		const fetchData = async () => {
+			setLoading(true);
 			try {
 				const response = await fetch("/api/strava/data");
 				if (!response.ok) {
@@ -17,8 +18,11 @@ const StravaSuccess = () => {
 				const result = await response.json();
 				console.log("Fetched data:", result); // Log the data to inspect it
 				setData(result);
+				setError(null);
 			} catch (error: any) {
 				setError(error.message);
+			} finally {
+				setLoading(false);
 			}
 		};
 
@@ -28,12 +32,9 @@ const StravaSuccess = () => {
 	if (loading) {
 		return <div>Loading...</div>;
 	}
+
 	if (error) {
 		return <div>Error: {error}</div>;
-	}
-
-	if (!data) {
-		return <div>Loading...</div>;
 	}
 
 	return (
@@ -56,9 +57,9 @@ const StravaSuccess = () => {
 			/>
 
 			{/* <h2>Activities (2021-2022):</h2>
-			<pre>{JSON.stringify(data.activities, null, 2)}</pre>
-			<h2>Activities (2023-2024):</h2>
-			<pre>{JSON.stringify(data.activities2, null, 2)}</pre>  */}
+      <pre>{JSON.stringify(data.activities, null, 2)}</pre>
+      <h2>Activities (2023-2024):</h2>
+      <pre>{JSON.stringify(data.activities2, null, 2)}</pre> */}
 		</div>
 	);
 };
