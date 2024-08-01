@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getAccessToken } from "../callback/route";
+import { cookies } from "next/headers";
 
 const filterActivityData = (activity: any) => ({
 	id: activity.id,
@@ -21,7 +21,8 @@ const filterActivityData = (activity: any) => ({
 
 export async function GET(req: NextRequest) {
 	try {
-		const accessToken = getAccessToken(); // Retrieve the saved access token
+		const cookieStore = cookies();
+		const accessToken = cookieStore.get("accessToken")?.value;
 
 		if (!accessToken) {
 			return NextResponse.json(

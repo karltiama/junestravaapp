@@ -1,7 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
 
-let accessToken = "";
-
 export async function GET(req: NextRequest) {
 	const { searchParams } = new URL(req.url);
 	const code = searchParams.get("code");
@@ -37,13 +35,22 @@ export async function GET(req: NextRequest) {
 	}
 
 	const tokenData = await response.json();
-	accessToken = tokenData.access_token; // Save the access token
+	const accessToken = tokenData.access_token; // Save the access token
 
-	// Redirect to a success page or another part of your app
+	// Create a NextResponse object and set the cookie
 	const redirectUrl = new URL("/strava/success", req.url).toString();
-	return NextResponse.redirect(redirectUrl);
+	const nextResponse = NextResponse.redirect(redirectUrl);
+
+	// Set the cookie in the NextResponse object
+	nextResponse.cookies.set("accessToken", accessToken, {
+		httpOnly: true,
+		secure: process.env.NODE_ENV === "production", // only set secure in production
+		path: "/",
+	});
+
+	return nextResponse;
 }
 
-export function getAccessToken() {
-	return accessToken;
+export function getAccessToken(req: NextRequest) {
+	return req.cookies.get("accessToken");
 }
