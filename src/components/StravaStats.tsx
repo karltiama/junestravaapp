@@ -9,39 +9,27 @@ import {
 
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { run } from "node:test";
 
-const StravaStats = ({
-	firstName,
-	profilePicture,
-	runTotalCount,
-	runTotalDistance,
-	runYtdCount,
-	runYtdDistance,
-	runRecentCount,
-	runRecentDistance,
-	bikeTotalCount,
-	bikeTotalDistance,
-	bikeYtdCount,
-	bikeYtdDistance,
-	bikeRecentCount,
-	bikeRecentDistance,
-}: {
-	firstName: string;
-	profilePicture?: string;
-	runTotalCount: number;
-	runTotalDistance: number;
-	runYtdCount: number;
-	runYtdDistance: number;
-	runRecentCount: number;
-	runRecentDistance: number;
-	bikeTotalCount: number;
-	bikeTotalDistance: number;
-	bikeYtdCount: number;
-	bikeYtdDistance: number;
-	bikeRecentCount: number;
-	bikeRecentDistance: number;
-}) => {
+import { StravaStatsProps } from "@/types/strava";
+
+const StravaStats = (props: StravaStatsProps) => {
+	const {
+		firstName,
+		profilePicture,
+		runTotalCount,
+		runTotalDistance,
+		runYtdCount,
+		runYtdDistance,
+		runRecentCount,
+		runRecentDistance,
+		bikeTotalCount,
+		bikeTotalDistance,
+		bikeYtdCount,
+		bikeYtdDistance,
+		bikeRecentCount,
+		bikeRecentDistance,
+	} = props;
+
 	const convertMetersToMiles = (meters: number) => {
 		return Math.round(meters * 0.000621371);
 	};
@@ -51,7 +39,6 @@ const StravaStats = ({
 			<Card className="w-[450px]">
 				<CardHeader className="flex flex-row items-center justify-between">
 					<CardTitle>{`Welcome back ${firstName}!`}</CardTitle>
-					{/* Add Avatar */}
 					<Avatar>
 						<AvatarImage src={profilePicture} />
 						<AvatarFallback>KT</AvatarFallback>
@@ -109,6 +96,10 @@ const StravaStats = ({
 						</TabsContent>
 					</Tabs>
 				</CardContent>
+				<CardHeader>
+					<CardTitle>Recent Activities</CardTitle>
+				</CardHeader>
+				<CardContent>{}</CardContent>
 			</Card>
 		</div>
 	);
