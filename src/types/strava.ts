@@ -14,3 +14,14 @@ export interface StravaStatsProps {
 	bikeRecentCount: number;
 	bikeRecentDistance: number;
 }
+
+export interface Activity {
+	id: number;
+	name: string;
+	distance: number;
+	moving_time: number;
+	total_elevation_gain: number;
+	type: string;
+	average_heartrate: number;
+	suffer_score: number;
+}

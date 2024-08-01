@@ -1,4 +1,5 @@
 "use client";
+import ActivityList from "@/components/ActivityList";
 import StravaStats from "@/components/StravaStats";
 import { useEffect, useState } from "react";
 
@@ -55,7 +56,7 @@ const StravaSuccess = () => {
 				bikeRecentCount={data.athleteStats.recent_ride_totals.count}
 				bikeRecentDistance={data.athleteStats.recent_ride_totals.distance}
 			/>
-
+			<ActivityList activities={data.activities2} /> {/* Display activities */}
 			{/* <h2>Activities (2021-2022):</h2>
       <pre>{JSON.stringify(data.activities, null, 2)}</pre>
       <h2>Activities (2023-2024):</h2>

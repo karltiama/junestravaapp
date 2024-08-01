@@ -31,12 +31,12 @@ const StravaStats = (props: StravaStatsProps) => {
 	} = props;
 
 	const convertMetersToMiles = (meters: number) => {
-		return Math.round(meters * 0.000621371);
+		return Math.round(meters * 0.000621371).toFixed(2);
 	};
 
 	return (
 		<div className="">
-			<Card className="w-[450px]">
+			<Card className="w-[450px] mx-auto">
 				<CardHeader className="flex flex-row items-center justify-between">
 					<CardTitle>{`Welcome back ${firstName}!`}</CardTitle>
 					<Avatar>
@@ -96,10 +96,6 @@ const StravaStats = (props: StravaStatsProps) => {
 						</TabsContent>
 					</Tabs>
 				</CardContent>
-				<CardHeader>
-					<CardTitle>Recent Activities</CardTitle>
-				</CardHeader>
-				<CardContent>{}</CardContent>
 			</Card>
 		</div>
 	);
