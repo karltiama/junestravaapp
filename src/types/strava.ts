@@ -17,6 +17,7 @@ export interface StravaStatsProps {
 
 export interface Activity {
 	id: number;
+	start_date_local: string;
 	date: string;
 	name: string;
 	distance: number;

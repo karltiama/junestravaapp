@@ -14,6 +14,7 @@ export const formatDateTime = (isoDate: string): string => {
 	// Extract the date, month
 	const day = date.getDate();
 	const month = date.toLocaleString("default", { month: "long" });
+	const year = date.getFullYear();
 
 	// Extract hours, minutes, seconds
 	let hours = date.getHours();
@@ -27,5 +28,5 @@ export const formatDateTime = (isoDate: string): string => {
 	// Format the time
 	const formattedMinutes = minutes < 10 ? `0${minutes}` : minutes;
 
-	return `${month} ${day} at ${hours}:${formattedMinutes} ${ampm}`;
+	return `${month} ${day} ${year} at ${hours}:${formattedMinutes} ${ampm}`;
 };

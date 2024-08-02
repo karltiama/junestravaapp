@@ -17,6 +17,7 @@ const activityTypeToImageMap: { [key: string]: string } = {
 	Walk: "/person-walking-solid.svg",
 	Ride: "/person-biking-solid.svg",
 	Workout: "/dumbbell-solid.svg",
+	WeightTraining: "/dumbbell-solid.svg",
 };
 
 const ActivityList: React.FC<ActivityListProps> = ({ activities }) => {

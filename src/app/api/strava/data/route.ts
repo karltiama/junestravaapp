@@ -20,6 +20,7 @@ const filterActivityData = (activity: any) => ({
 	suffer_score: activity.suffer_score,
 });
 
+// Main GET Request Handler
 export async function GET(req: NextRequest) {
 	try {
 		const cookieStore = cookies();
@@ -94,7 +95,7 @@ export async function GET(req: NextRequest) {
 
 		// Fetch activities for Jan 2023 - Dec 2024
 		const activitiesResponse2 = await fetch(
-			"https://www.strava.com/api/v3/athlete/activities?after=1672531200&before=1735686000&per_page=10",
+			"https://www.strava.com/api/v3/athlete/activities?after=1672531200&before=1735686000&per_page=200",
 			{
 				headers: {
 					Authorization: `Bearer ${accessToken}`,
@@ -114,7 +115,7 @@ export async function GET(req: NextRequest) {
 		const filteredActivities2 = activities2.map(filterActivityData);
 
 		// Log activities2 to the console
-		console.log("Activities (2023-2024):", filteredActivities2);
+		// console.log("Activities (2023-2024):", filteredActivities2);
 
 		return NextResponse.json({
 			athlete,
