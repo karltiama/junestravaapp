@@ -4,6 +4,7 @@ import { Card, CardContent, CardHeader } from "./ui/card";
 import {
 	convertMetersToMiles,
 	convertSecondsToMinutes,
+	formatDateTime,
 } from "@/utils/conversions";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 
@@ -30,8 +31,11 @@ const ActivityList: React.FC<ActivityListProps> = ({ activities }) => {
 						{activities.map((activity) => (
 							<CardContent key={activity.id} className="border-b">
 								<CardHeader className="">
-									<div className="flex flex-row justify-between">
-										{activity.name}
+									<div className="flex flex-row justify-between items-center">
+										<div className="flex flex-col">
+											<span>{activity.name}</span>
+											<span> {formatDateTime(activity.date)}</span>
+										</div>
 										<Avatar>
 											<AvatarImage
 												src={activityTypeToImageMap[activity.type]}

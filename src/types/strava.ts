@@ -17,6 +17,7 @@ export interface StravaStatsProps {
 
 export interface Activity {
 	id: number;
+	date: string;
 	name: string;
 	distance: number;
 	moving_time: number;

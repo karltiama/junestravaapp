@@ -3,6 +3,7 @@ import { cookies } from "next/headers";
 
 const filterActivityData = (activity: any) => ({
 	id: activity.id,
+	date: activity.start_date_local,
 	name: activity.name,
 	distance: activity.distance,
 	moving_time: activity.moving_time,
