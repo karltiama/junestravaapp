@@ -11,6 +11,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 import { StravaStatsProps } from "@/types/strava";
+import { convertMetersToMiles } from "@/utils/conversions";
 
 const StravaStats = (props: StravaStatsProps) => {
 	const {
@@ -30,15 +31,14 @@ const StravaStats = (props: StravaStatsProps) => {
 		bikeRecentDistance,
 	} = props;
 
-	const convertMetersToMiles = (meters: number) => {
-		return Math.round(meters * 0.000621371).toFixed(2);
-	};
-
 	return (
 		<div className="">
 			<Card className="w-[450px] mx-auto">
 				<CardHeader className="flex flex-row items-center justify-between">
-					<CardTitle>{`Welcome back ${firstName}!`}</CardTitle>
+					<div className="flex flex-col">
+						<CardTitle>{`Welcome back ${firstName}!`}</CardTitle>
+						<CardDescription>Joined Strava</CardDescription>
+					</div>
 					<Avatar>
 						<AvatarImage src={profilePicture} />
 						<AvatarFallback>KT</AvatarFallback>
@@ -56,7 +56,7 @@ const StravaStats = (props: StravaStatsProps) => {
 									<CardTitle>Running Totals</CardTitle>
 									<CardDescription>You've logged:</CardDescription>
 								</CardHeader>
-								<CardContent className="space-y-2">
+								<CardContent className="">
 									<div className="">
 										Total of {runTotalCount} runs for{" "}
 										{convertMetersToMiles(runTotalDistance)} miles
@@ -78,7 +78,7 @@ const StravaStats = (props: StravaStatsProps) => {
 									<CardTitle>Biking Totals</CardTitle>
 									<CardDescription>You've logged:</CardDescription>
 								</CardHeader>
-								<CardContent className="space-y-2">
+								<CardContent className="">
 									<div>
 										Total of: {bikeTotalCount} rides for{" "}
 										{convertMetersToMiles(bikeTotalDistance)} miles
