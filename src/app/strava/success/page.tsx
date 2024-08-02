@@ -40,7 +40,7 @@ const StravaSuccess = () => {
 	}
 
 	return (
-		<div className="flex flex-col items-center m-8">
+		<div className="flex flex-col items-center mt-6">
 			<StravaStats
 				firstName={data.athlete.firstname}
 				profilePicture={data.athlete.profile_medium}
@@ -57,12 +57,8 @@ const StravaSuccess = () => {
 				bikeRecentCount={data.athleteStats.recent_ride_totals.count}
 				bikeRecentDistance={data.athleteStats.recent_ride_totals.distance}
 			/>
-			{/* <ActivityList activities={data.activities2} /> Display activities */}
+			<ActivityList activities={data.activities2} />
 			<RunningChart activities={data.activities2} />
-			{/* <h2>Activities (2021-2022):</h2>
-      <pre>{JSON.stringify(data.activities, null, 2)}</pre>
-      <h2>Activities (2023-2024):</h2>
-      <pre>{JSON.stringify(data.activities2, null, 2)}</pre> */}
 		</div>
 	);
 };
