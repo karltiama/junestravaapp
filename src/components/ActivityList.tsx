@@ -2,11 +2,18 @@ import React from "react";
 import { Activity } from "@/types/strava"; // Ensure you have a type for Activity
 import { Card, CardContent, CardHeader } from "./ui/card";
 import {
+	convertMetersToFeet,
 	convertMetersToMiles,
 	convertSecondsToMinutes,
 	formatDateTime,
 } from "@/utils/conversions";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
+import {
+	Accordion,
+	AccordionContent,
+	AccordionItem,
+	AccordionTrigger,
+} from "./ui/accordion";
 
 interface ActivityListProps {
 	activities: Activity[];
@@ -24,39 +31,50 @@ const ActivityList: React.FC<ActivityListProps> = ({ activities }) => {
 	return (
 		<div className="mt-6">
 			<Card className="w-[450px] mx-auto">
-				<CardHeader className="text-2xl font-semibold mb-4">
-					Last 10 Activities
+				<CardHeader className="text-2xl font-semibold">
+					Recent Activities
 				</CardHeader>
-				<CardContent className="space-y-2">
-					<Card className="space-y-2">
+				<CardContent className="">
+					<Card className="">
 						{activities.map((activity) => (
-							<CardContent key={activity.id} className="border-b">
-								<CardHeader className="">
-									<div className="flex flex-row justify-between items-center">
-										<div className="flex flex-col">
-											<span>{activity.name}</span>
-											<span> {formatDateTime(activity.date)}</span>
-										</div>
-										<Avatar>
-											<AvatarImage
-												src={activityTypeToImageMap[activity.type]}
-											/>{" "}
-											*/
-											<AvatarFallback>{activity.type}</AvatarFallback>
-										</Avatar>
-									</div>
-								</CardHeader>
-								<p>Type: {activity.type}</p>
-								<p>Distance: {convertMetersToMiles(activity.distance)} miles</p>
-								<p>
-									Moving Time: {convertSecondsToMinutes(activity.moving_time)}
-								</p>
-								<p>
-									Total Elevation Gain:{" "}
-									{convertMetersToMiles(activity.total_elevation_gain)} miles
-								</p>
-								<p>Average Heart Rate: {activity.average_heartrate} bpm</p>
-								<p>Suffer Score: {activity.suffer_score}</p>
+							<CardContent key={activity.id} className="pb-0">
+								<Accordion type="single" collapsible className="w-full">
+									<AccordionItem value="item-1">
+										<AccordionTrigger>
+											<div className="flex flex-row items-center justify-between w-full">
+												<div className="flex flex-col">
+													<span>{activity.name}</span>
+													<span> {formatDateTime(activity.date)}</span>
+												</div>
+												<Avatar className="ml-4">
+													<AvatarImage
+														src={activityTypeToImageMap[activity.type]}
+													/>
+													<AvatarFallback>{activity.type}</AvatarFallback>
+												</Avatar>
+											</div>
+										</AccordionTrigger>
+										<AccordionContent>
+											<p>
+												Distance: {convertMetersToMiles(activity.distance)}{" "}
+												miles
+											</p>
+											<p>
+												Moving Time:{" "}
+												{convertSecondsToMinutes(activity.moving_time)}
+											</p>
+											<p>
+												Total Elevation Gain:{" "}
+												{convertMetersToFeet(activity.total_elevation_gain)}{" "}
+												Feet
+											</p>
+											<p>
+												Average Heart Rate: {activity.average_heartrate} bpm
+											</p>
+											<p>Suffer Score: {activity.suffer_score}</p>
+										</AccordionContent>
+									</AccordionItem>
+								</Accordion>
 							</CardContent>
 						))}
 					</Card>
