@@ -1,5 +1,5 @@
-import React from "react";
-import { Activity } from "@/types/strava"; // Ensure you have a type for Activity
+import React, { useState } from "react";
+import { ActivityType } from "@/types/strava"; // Ensure you have a type for Activity
 import { Card, CardContent, CardHeader } from "./ui/card";
 import {
 	convertMetersToFeet,
@@ -14,9 +14,11 @@ import {
 	AccordionItem,
 	AccordionTrigger,
 } from "./ui/accordion";
+import { Button } from "./ui/button";
+import { Activity, HeartCrack, MountainSnow, Ruler, Timer } from "lucide-react";
 
 interface ActivityListProps {
-	activities: Activity[];
+	activities: ActivityType[];
 }
 
 const activityTypeToImageMap: { [key: string]: string } = {
@@ -28,25 +30,52 @@ const activityTypeToImageMap: { [key: string]: string } = {
 };
 
 const ActivityList: React.FC<ActivityListProps> = ({ activities }) => {
+	const [currentPage, setCurrentPage] = useState(1);
+	const activitiesPerPage = 5;
+	const maxPageNumbersToShow = 5; // Maximum number of page numbers to show
+
+	// Calculate the indices for slicing the activities array
+	const indexOfLastActivity = currentPage * activitiesPerPage;
+	const indexOfFirstActivity = indexOfLastActivity - activitiesPerPage;
+	const currentActivities = activities.slice(
+		indexOfFirstActivity,
+		indexOfLastActivity
+	);
+
+	const totalPages = Math.ceil(activities.length / activitiesPerPage);
+
+	// Calculate the start and end page numbers to display
+	const startPage = Math.max(
+		1,
+		currentPage - Math.floor(maxPageNumbersToShow / 2)
+	);
+	const endPage = Math.min(totalPages, startPage + maxPageNumbersToShow - 1);
+
+	// Adjust the startPage if we are near the end
+	const adjustedStartPage = Math.max(1, endPage - maxPageNumbersToShow + 1);
+
+	// Function to handle page change
+	const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
+
 	return (
-		<div className="mt-6">
+		<div className="">
 			<Card className="w-[450px] mx-auto">
 				<CardHeader className="text-2xl font-semibold">
 					Recent Activities
 				</CardHeader>
 				<CardContent className="">
 					<Card className="">
-						{activities.map((activity) => (
+						{currentActivities.map((activity) => (
 							<CardContent key={activity.id} className="pb-0">
 								<Accordion type="single" collapsible className="w-full">
-									<AccordionItem value="item-1">
+									<AccordionItem value={`item-${activity.id}`}>
 										<AccordionTrigger>
-											<div className="flex flex-row items-center justify-between w-full">
-												<div className="flex flex-col">
+											<div className="flex items-center justify-between w-full">
+												<div className="flex flex-col items-center">
 													<span>{activity.name}</span>
-													<span> {formatDateTime(activity.date)}</span>
+													<span>{formatDateTime(activity.date)}</span>
 												</div>
-												<Avatar className="ml-4">
+												<Avatar className="">
 													<AvatarImage
 														src={activityTypeToImageMap[activity.type]}
 													/>
@@ -55,23 +84,33 @@ const ActivityList: React.FC<ActivityListProps> = ({ activities }) => {
 											</div>
 										</AccordionTrigger>
 										<AccordionContent>
-											<p>
-												Distance: {convertMetersToMiles(activity.distance)}{" "}
-												miles
-											</p>
-											<p>
-												Moving Time:{" "}
-												{convertSecondsToMinutes(activity.moving_time)}
-											</p>
-											<p>
-												Total Elevation Gain:{" "}
-												{convertMetersToFeet(activity.total_elevation_gain)}{" "}
-												Feet
-											</p>
-											<p>
-												Average Heart Rate: {activity.average_heartrate} bpm
-											</p>
-											<p>Suffer Score: {activity.suffer_score}</p>
+											<div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+												<div className="space-y-2">
+													<p className="flex gap-2 font-medium leading-none">
+														<Ruler className="h-4 w-4" />
+														{convertMetersToMiles(activity.distance)} miles
+													</p>
+													<p className="flex gap-2 font-medium leading-none">
+														<Timer className="h-4 w-4" />
+														{convertSecondsToMinutes(activity.moving_time)}
+													</p>
+													<p className="flex gap-2 font-medium leading-none">
+														<MountainSnow className="h-4 w-4" />
+														{convertMetersToFeet(activity.total_elevation_gain)}
+														Feet
+													</p>
+												</div>
+												<div className="space-y-2">
+													<p className="flex gap-2 font-medium leading-none">
+														<Activity className="h-4 w-4" />
+														{activity.average_heartrate} bpm
+													</p>
+													<p className="flex gap-2 font-medium leading-none">
+														<HeartCrack className="h-4 w-4" />
+														{activity.suffer_score}
+													</p>
+												</div>
+											</div>
 										</AccordionContent>
 									</AccordionItem>
 								</Accordion>
@@ -79,6 +118,20 @@ const ActivityList: React.FC<ActivityListProps> = ({ activities }) => {
 						))}
 					</Card>
 				</CardContent>
+				<div className="flex justify-center m-4">
+					{Array.from({ length: endPage - adjustedStartPage + 1 }, (_, i) => (
+						<Button
+							key={i + adjustedStartPage}
+							onClick={() => paginate(i + adjustedStartPage)}
+							className={`px-4 py-2 mx-1 border rounded ${
+								currentPage === i + adjustedStartPage
+									? "bg-blue-500 text-white"
+									: "bg-gray-200"
+							}`}>
+							{i + adjustedStartPage}
+						</Button>
+					))}
+				</div>
 			</Card>
 		</div>
 	);

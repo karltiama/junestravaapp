@@ -19,7 +19,7 @@ import {
 	ChartTooltipContent,
 } from "@/components/ui/chart";
 
-import { Activity } from "@/types/strava";
+import { ActivityType } from "@/types/strava";
 
 // Define the structure for chart data
 interface ChartData {
@@ -39,7 +39,7 @@ const chartConfig = {
 	},
 } satisfies ChartConfig;
 
-export function RunningChart({ activities }: { activities: Activity[] }) {
+export function RunningChart({ activities }: { activities: ActivityType[] }) {
 	const [chartData, setChartData] = useState<ChartData[]>([]);
 
 	useEffect(() => {
@@ -57,11 +57,11 @@ export function RunningChart({ activities }: { activities: Activity[] }) {
 			const monthNumber = date.getMonth(); // 0-11
 			const miles = convertMetersToMiles(activity.distance); // Convert meters to miles
 
-			console.log(
-				`Activity: ${activity.name}, Type: ${activity.type}, Date: ${
-					activity.start_date_local
-				}, Month: ${monthNumber + 1}, Miles: ${miles.toFixed(2)}`
-			);
+			// console.log(
+			// 	`Activity: ${activity.name}, Type: ${activity.type}, Date: ${
+			// 		activity.start_date_local
+			// 	}, Month: ${monthNumber + 1}, Miles: ${miles.toFixed(2)}`
+			// );
 
 			if (!monthlyDataMap[monthNumber]) {
 				monthlyDataMap[monthNumber] = { running: 0, biking: 0 };
@@ -81,8 +81,8 @@ export function RunningChart({ activities }: { activities: Activity[] }) {
 			biking: monthlyDataMap[i]?.biking || 0,
 		}));
 
-		console.log("Monthly Data Map:", monthlyDataMap);
-		console.log("Chart Data:", chartDataArray);
+		// console.log("Monthly Data Map:", monthlyDataMap);
+		// console.log("Chart Data:", chartDataArray);
 
 		setChartData(chartDataArray);
 	}, [activities]);

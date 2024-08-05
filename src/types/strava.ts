@@ -15,7 +15,7 @@ export interface StravaStatsProps {
 	bikeRecentDistance: number;
 }
 
-export interface Activity {
+export interface ActivityType {
 	id: number;
 	start_date_local: string;
 	date: string;

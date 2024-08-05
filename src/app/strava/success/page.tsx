@@ -1,5 +1,6 @@
 "use client";
 import ActivityList from "@/components/ActivityList";
+import PaceCalculator from "@/components/PaceCalculator";
 import { RunningChart } from "@/components/RunningChart";
 import StravaStats from "@/components/StravaStats";
 import { useEffect, useState } from "react";
@@ -40,7 +41,7 @@ const StravaSuccess = () => {
 	}
 
 	return (
-		<div className="flex flex-col items-center mt-6">
+		<div className="">
 			<StravaStats
 				firstName={data.athlete.firstname}
 				profilePicture={data.athlete.profile_medium}
@@ -57,8 +58,9 @@ const StravaSuccess = () => {
 				bikeRecentCount={data.athleteStats.recent_ride_totals.count}
 				bikeRecentDistance={data.athleteStats.recent_ride_totals.distance}
 			/>
-			<ActivityList activities={data.activities2} />
 			<RunningChart activities={data.activities2} />
+			<ActivityList activities={data.activities2} />
+			<PaceCalculator />
 		</div>
 	);
 };
