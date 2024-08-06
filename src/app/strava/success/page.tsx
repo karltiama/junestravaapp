@@ -1,5 +1,7 @@
 "use client";
 import ActivityList from "@/components/ActivityList";
+import CountDown from "@/components/CountDown";
+import { LoginInfo } from "@/components/LoginInfo";
 import PaceCalculator from "@/components/PaceCalculator";
 import { RunningChart } from "@/components/RunningChart";
 import StravaStats from "@/components/StravaStats";
@@ -41,7 +43,13 @@ const StravaSuccess = () => {
 	}
 
 	return (
-		<div className="">
+		<div>
+			<CountDown />
+			<LoginInfo
+				firstName={data.athlete.firstname}
+				profilePicture={data.athlete.profile_medium}
+				created_at={data.athlete.created_at}
+			/>
 			<StravaStats
 				firstName={data.athlete.firstname}
 				profilePicture={data.athlete.profile_medium}

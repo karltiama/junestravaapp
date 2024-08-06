@@ -15,8 +15,6 @@ import { convertMetersToMiles } from "@/utils/conversions";
 
 const StravaStats = (props: StravaStatsProps) => {
 	const {
-		firstName,
-		profilePicture,
 		runTotalCount,
 		runTotalDistance,
 		runYtdCount,
@@ -33,16 +31,9 @@ const StravaStats = (props: StravaStatsProps) => {
 
 	return (
 		<div className="">
-			<Card className="w-[450px] mx-auto">
+			<Card className="max-w-[450px] mx-auto">
 				<CardHeader className="flex flex-row items-center justify-between">
-					<div className="flex flex-col">
-						<CardTitle>{`Welcome back ${firstName}!`}</CardTitle>
-						<CardDescription>Joined Strava</CardDescription>
-					</div>
-					<Avatar>
-						<AvatarImage src={profilePicture} />
-						<AvatarFallback>KT</AvatarFallback>
-					</Avatar>
+					<CardTitle>Stats at a Glance</CardTitle>
 				</CardHeader>
 				<CardContent>
 					<Tabs defaultValue="running" className="w-[400px]">
