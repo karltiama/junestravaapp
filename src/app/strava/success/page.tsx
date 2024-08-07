@@ -44,12 +44,12 @@ const StravaSuccess = () => {
 
 	return (
 		<div>
-			<CountDown />
 			<LoginInfo
 				firstName={data.athlete.firstname}
 				profilePicture={data.athlete.profile_medium}
 				created_at={data.athlete.created_at}
 			/>
+			<CountDown />
 			<StravaStats
 				firstName={data.athlete.firstname}
 				profilePicture={data.athlete.profile_medium}
