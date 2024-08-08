@@ -7,12 +7,14 @@ import { FitnessSvg } from "@/components/fitnessSvg";
 import { Features } from "@/components/features";
 import FitnessHero from "@/components/fitness-hero";
 import HeroComponent from "@/components/Hero";
+import KeyFeatures from "@/components/KeyFeatures";
 
 export default function Home() {
 	return (
 		<main className="overflow-hidden">
-			<HeroComponent />
-			{/* <FitnessHero /> */}
+			<FitnessHero />
+			{/* <HeroComponent />
+			<KeyFeatures /> */}
 		</main>
 	);
 }
