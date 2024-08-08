@@ -26,7 +26,7 @@ export function LoginInfo({
 	};
 
 	return (
-		<Card className=" mx-auto w-full max-w-[450px] lg:max-w-[1000px]">
+		<Card className=" mx-auto max-w-[450px] lg:max-w-6xl justify-center">
 			<CardHeader className="flex flex-row items-center justify-around">
 				<div>
 					<CardTitle>{`Welcome back ${firstName}!`}</CardTitle>

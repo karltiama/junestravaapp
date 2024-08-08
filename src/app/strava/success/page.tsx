@@ -43,32 +43,34 @@ const StravaSuccess = () => {
 	}
 
 	return (
-		<div>
+		<div className="">
 			<LoginInfo
 				firstName={data.athlete.firstname}
 				profilePicture={data.athlete.profile_medium}
 				created_at={data.athlete.created_at}
 			/>
-			<CountDown />
-			<StravaStats
-				firstName={data.athlete.firstname}
-				profilePicture={data.athlete.profile_medium}
-				runTotalCount={data.athleteStats.all_run_totals.count}
-				runTotalDistance={data.athleteStats.all_run_totals.distance}
-				runYtdCount={data.athleteStats.ytd_run_totals.count}
-				runYtdDistance={data.athleteStats.ytd_run_totals.distance}
-				runRecentCount={data.athleteStats.recent_run_totals.count}
-				runRecentDistance={data.athleteStats.recent_run_totals.distance}
-				bikeTotalCount={data.athleteStats.all_ride_totals.count}
-				bikeTotalDistance={data.athleteStats.all_ride_totals.distance}
-				bikeYtdCount={data.athleteStats.ytd_ride_totals.count}
-				bikeYtdDistance={data.athleteStats.ytd_ride_totals.distance}
-				bikeRecentCount={data.athleteStats.recent_ride_totals.count}
-				bikeRecentDistance={data.athleteStats.recent_ride_totals.distance}
-			/>
-			<RunningChart activities={data.activities2} />
-			<ActivityList activities={data.activities2} />
-			<PaceCalculator />
+			<div className="chart-wrapper mx-auto flex max-w-6xl flex-col flex-wrap items-start justify-center gap-6 p-6 sm:flex-row sm:p-8">
+				<CountDown />
+				<StravaStats
+					firstName={data.athlete.firstname}
+					profilePicture={data.athlete.profile_medium}
+					runTotalCount={data.athleteStats.all_run_totals.count}
+					runTotalDistance={data.athleteStats.all_run_totals.distance}
+					runYtdCount={data.athleteStats.ytd_run_totals.count}
+					runYtdDistance={data.athleteStats.ytd_run_totals.distance}
+					runRecentCount={data.athleteStats.recent_run_totals.count}
+					runRecentDistance={data.athleteStats.recent_run_totals.distance}
+					bikeTotalCount={data.athleteStats.all_ride_totals.count}
+					bikeTotalDistance={data.athleteStats.all_ride_totals.distance}
+					bikeYtdCount={data.athleteStats.ytd_ride_totals.count}
+					bikeYtdDistance={data.athleteStats.ytd_ride_totals.distance}
+					bikeRecentCount={data.athleteStats.recent_ride_totals.count}
+					bikeRecentDistance={data.athleteStats.recent_ride_totals.distance}
+				/>
+				<RunningChart activities={data.activities2} />
+				<ActivityList activities={data.activities2} />
+				<PaceCalculator />
+			</div>
 		</div>
 	);
 };
