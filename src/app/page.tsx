@@ -13,8 +13,8 @@ export default function Home() {
 	return (
 		<main className="overflow-hidden">
 			<FitnessHero />
-			{/* <HeroComponent />
-			<KeyFeatures /> */}
+			{/* <HeroComponent /> */}
+			<KeyFeatures />
 		</main>
 	);
 }

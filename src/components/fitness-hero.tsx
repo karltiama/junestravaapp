@@ -10,11 +10,11 @@ const authorizeUrl = `https://www.strava.com/oauth/authorize?client_id=${process
 const FitnessHero = () => {
 	return (
 		<div className="flex xl:flex-row flex-col gap-5 relative z-0 max-w-[1400px] mx-auto">
-			<div className="flex-1 pt-36 sm:px-16 px-6">
-				<h1 className="2xl:text-[72px] sm:text-[64px] text-[50px] font-extrabold">
+			<div className="flex-1 lg:pt-36 sm:px-16 px-6">
+				<h1 className="text-[40px] sm:text-[40px] lg:text-[64px] xl:text-[72px] font-extrabold">
 					Empower your fitness journey -- set goals and track your progress
 				</h1>
-				<p className="text-[27px] text-black-100 font-light mt-5">
+				<p className="text-[20px] sm:text-[24px] lg:text-[27px] text-black-100 font-light mt-5">
 					Monitor your workouts, see your progress, and stay inspired on your
 					fitness journey!
 				</p>
