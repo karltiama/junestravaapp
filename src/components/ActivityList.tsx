@@ -5,7 +5,7 @@ import {
 	convertMetersToFeet,
 	convertMetersToMiles,
 	convertSecondsToMinutes,
-	formatDateTime,
+	formatIso,
 } from "@/utils/conversions";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import {
@@ -73,7 +73,7 @@ const ActivityList: React.FC<ActivityListProps> = ({ activities }) => {
 											<div className="flex items-center justify-between w-full">
 												<div className="flex flex-col items-center">
 													<span>{activity.name}</span>
-													<span>{formatDateTime(activity.date)}</span>
+													<span>{formatIso(activity.date)}</span>
 												</div>
 												<Avatar className="">
 													<AvatarImage

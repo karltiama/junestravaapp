@@ -1,26 +1,178 @@
+"use client";
+import React, { useEffect, useState } from "react";
+
+// ui imports
 import {
 	Card,
 	CardHeader,
 	CardTitle,
 	CardDescription,
 	CardContent,
+	CardFooter,
 } from "@/components/ui/card";
-import { CartesianGrid, XAxis, Line, LineChart } from "recharts";
+import { CartesianGrid, XAxis, BarChart, Bar } from "recharts";
 import {
+	ChartConfig,
 	ChartTooltipContent,
 	ChartTooltip,
 	ChartContainer,
 } from "@/components/ui/chart";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs";
+import {
+	TrendingUp,
+	TrendingDown,
+	Ruler,
+	Timer,
+	MountainSnow,
+	Activity,
+	HeartCrack,
+} from "lucide-react";
+
+// type imports
+import { ActivityType } from "@/types/strava";
+
+interface ChartData {
+	month: string;
+	running: number;
+	biking: number;
+}
+
+const chartConfig = {
+	running: {
+		label: "Running",
+		color: "hsl(var(--chart-1))",
+	},
+	biking: {
+		label: "Biking",
+		color: "hsl(var(--chart-2))",
+	},
+} satisfies ChartConfig;
+// util imports
+import {
+	convertMetersToFeet,
+	convertMetersToMiles,
+	convertSecondsToMinutes,
+	formatIso,
+	formatDate,
+} from "@/utils/conversions";
+import {
+	Accordion,
+	AccordionContent,
+	AccordionItem,
+	AccordionTrigger,
+} from "./ui/accordion";
+import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
+import { Button } from "./ui/button";
+
+const activityTypeToImageMap: { [key: string]: string } = {
+	Run: "/person-running-solidtwo.svg",
+	Walk: "/person-walking-solid.svg",
+	Ride: "/person-biking-solid.svg",
+	Workout: "/dumbbell-solid.svg",
+	WeightTraining: "/dumbbell-solid.svg",
+};
 
 export default function Dashboard({
 	firstName,
-}: // profilePicture,
-// created_at,
-{
+	profilePicture,
+	created_at,
+	runTotalCount,
+	runTotalDistance,
+	runYtdCount,
+	runYtdDistance,
+	runRecentCount,
+	runRecentDistance,
+	bikeTotalCount,
+	bikeTotalDistance,
+	bikeYtdCount,
+	bikeYtdDistance,
+	bikeRecentCount,
+	bikeRecentDistance,
+	activities,
+}: {
 	firstName: string;
+	profilePicture?: string;
+	created_at: string;
+	runTotalCount: number;
+	runTotalDistance: number;
+	runYtdCount: number;
+	runYtdDistance: number;
+	runRecentCount: number;
+	runRecentDistance: number;
+	bikeTotalCount: number;
+	bikeTotalDistance: number;
+	bikeYtdCount: number;
+	bikeYtdDistance: number;
+	bikeRecentCount: number;
+	bikeRecentDistance: number;
+	activities: ActivityType[];
 	// profilePicture: string;
 	// created_at: string;
 }) {
+	const [chartData, setChartData] = useState<ChartData[]>([]);
+	const [currentPage, setCurrentPage] = useState(1);
+	const activitiesPerPage = 8;
+	const maxPageNumbersToShow = 5; // Maximum number of page numbers to show
+
+	// Calculate the indices for slicing the activities array
+	const indexOfLastActivity = currentPage * activitiesPerPage;
+	const indexOfFirstActivity = indexOfLastActivity - activitiesPerPage;
+	const currentActivities = activities.slice(
+		indexOfFirstActivity,
+		indexOfLastActivity
+	);
+
+	const totalPages = Math.ceil(activities.length / activitiesPerPage);
+
+	// Calculate the start and end page numbers to display
+	const startPage = Math.max(
+		1,
+		currentPage - Math.floor(maxPageNumbersToShow / 2)
+	);
+	const endPage = Math.min(totalPages, startPage + maxPageNumbersToShow - 1);
+
+	// Adjust the startPage if we are near the end
+	const adjustedStartPage = Math.max(1, endPage - maxPageNumbersToShow + 1);
+
+	// Function to handle page change
+	const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
+
+	useEffect(() => {
+		const currentYear = new Date().getFullYear();
+
+		// Calculate monthly running and biking distances
+		const monthlyDataMap: {
+			[key: number]: { running: number; biking: number };
+		} = {};
+
+		activities.forEach((activity) => {
+			const date = new Date(activity.start_date_local);
+			if (date.getFullYear() !== currentYear) return; // Ensure we only process activities from the current year
+
+			const monthNumber = date.getMonth(); // 0-11
+			const miles = convertMetersToMiles(activity.distance); // Convert meters to miles
+
+			if (!monthlyDataMap[monthNumber]) {
+				monthlyDataMap[monthNumber] = { running: 0, biking: 0 };
+			}
+
+			if (activity.type === "Run") {
+				monthlyDataMap[monthNumber].running += Number(miles);
+			} else if (activity.type === "Ride" || activity.type === "Biking") {
+				monthlyDataMap[monthNumber].biking += Number(miles);
+			}
+		});
+
+		// Prepare chart data
+		const chartDataArray: ChartData[] = Array.from({ length: 12 }, (_, i) => ({
+			month: new Date(0, i).toLocaleString("default", { month: "long" }),
+			running: monthlyDataMap[i]?.running || 0,
+			biking: monthlyDataMap[i]?.biking || 0,
+		}));
+
+		setChartData(chartDataArray);
+	}, [activities]);
+
 	return (
 		<div className="w-full max-w-6xl mx-auto px-4 py-8 md:px-6 md:py-12 lg:py-16">
 			<div className="space-y-4 md:space-y-6 lg:space-y-8">
@@ -29,169 +181,204 @@ export default function Dashboard({
 						{`Welcome back to your Dashboard ${firstName}!`}
 					</h1>
 					<p className="mt-3 text-lg text-muted-foreground md:mt-5 md:text-xl lg:text-base xl:text-lg">
-						Manage your business with ease.
+						View your fitness stats and recent activity below.
 					</p>
 				</div>
 				<div className="grid gap-4 md:grid-cols-2 lg:gap-6 xl:grid-cols-3">
 					<div className="grid gap-4 md:col-span-2 lg:gap-6">
+						{/* // Overall Stats */}
 						<Card className="w-full">
-							<CardHeader>
+							<CardHeader className="flex flex-row items-center justify-between">
 								<CardTitle>Overall Stats</CardTitle>
-								<CardDescription>
-									A summary of your overall business performance.
-								</CardDescription>
+								<CardDescription>{`Joined Strava: ${formatDate(
+									created_at
+								)}`}</CardDescription>
+								<Avatar>
+									<AvatarImage src={profilePicture} />
+									<AvatarFallback>{firstName[0]}</AvatarFallback>
+								</Avatar>
 							</CardHeader>
 							<CardContent>
-								<div className="grid gap-4">
-									<div className="grid grid-cols-2 items-center gap-2">
-										<div className="text-muted-foreground">Total Sales</div>
-										<div className="text-2xl font-bold">$12,345</div>
-									</div>
-									<div className="grid grid-cols-2 items-center gap-2">
-										<div className="text-muted-foreground">
-											Avg. Order Value
-										</div>
-										<div className="text-2xl font-bold">$45</div>
-									</div>
-									<div className="grid grid-cols-2 items-center gap-2">
-										<div className="text-muted-foreground">Conversion Rate</div>
-										<div className="text-2xl font-bold">3.2%</div>
-									</div>
-								</div>
+								<Tabs defaultValue="running" className="w-full">
+									<TabsList className="grid w-full grid-cols-2">
+										<TabsTrigger value="running">Running</TabsTrigger>
+										<TabsTrigger value="biking">Biking</TabsTrigger>
+									</TabsList>
+									<TabsContent value="running">
+										<Card>
+											<CardHeader>
+												<CardTitle>Running Totals</CardTitle>
+												<CardDescription>You've logged:</CardDescription>
+											</CardHeader>
+											<CardContent className="">
+												<div className="">
+													Total of {runTotalCount} runs for{" "}
+													{convertMetersToMiles(runTotalDistance)} miles
+												</div>
+												<div>
+													Yearly Total: {runYtdCount} runs for{" "}
+													{convertMetersToMiles(runYtdDistance)} miles
+												</div>
+												<div>
+													Last 4 weeks: {runRecentCount} runs for{" "}
+													{convertMetersToMiles(runRecentDistance)} miles
+												</div>
+											</CardContent>
+										</Card>
+									</TabsContent>
+									<TabsContent value="biking">
+										<Card>
+											<CardHeader className="">
+												<CardTitle>Biking Totals</CardTitle>
+												<CardDescription>You've logged:</CardDescription>
+											</CardHeader>
+											<CardContent className="">
+												<div>
+													Total of: {bikeTotalCount} rides for{" "}
+													{convertMetersToMiles(bikeTotalDistance)} miles
+												</div>
+												<div>
+													Yearly Total: {bikeYtdCount} rides for{" "}
+													{convertMetersToMiles(bikeYtdDistance)} miles
+												</div>
+												<div>
+													Last 4 weeks: {bikeRecentCount} rides for{" "}
+													{convertMetersToMiles(bikeRecentDistance)} miles
+												</div>
+											</CardContent>
+										</Card>
+									</TabsContent>
+								</Tabs>
 							</CardContent>
 						</Card>
+						{/* Monthly Running and Biking Chart */}
 						<Card className="w-full">
 							<CardHeader>
-								<CardTitle>Sales Chart</CardTitle>
+								<CardTitle>Running and Biking Month to Month</CardTitle>
 								<CardDescription>
-									A chart showing your sales performance.
+									January - December {new Date().getFullYear()}
 								</CardDescription>
 							</CardHeader>
 							<CardContent>
-								<LinechartChart className="aspect-[4/3]" />
+								<ChartContainer config={chartConfig}>
+									<BarChart accessibilityLayer data={chartData}>
+										<CartesianGrid vertical={false} />
+										<XAxis
+											dataKey="month"
+											tickLine={false}
+											tickMargin={10}
+											axisLine={false}
+											tickFormatter={(value) => value.slice(0, 3)}
+										/>
+										<ChartTooltip
+											cursor={false}
+											content={<ChartTooltipContent indicator="dashed" />}
+										/>
+										<Bar
+											dataKey="running"
+											fill={chartConfig.running.color}
+											radius={4}
+										/>
+										<Bar
+											dataKey="biking"
+											fill={chartConfig.biking.color}
+											radius={4}
+										/>
+									</BarChart>
+								</ChartContainer>
 							</CardContent>
+							<CardFooter className="flex-col items-start gap-2 text-sm">
+								<div className="flex gap-2 font-medium leading-none">
+									Trending up by 5.2% this month{" "}
+									<TrendingUp className="h-4 w-4" />
+								</div>
+								<div className="leading-none text-muted-foreground">
+									Showing total activities for the current year
+								</div>
+							</CardFooter>
 						</Card>
 					</div>
 					<Card className="w-full md:col-span-2 lg:col-span-1">
-						<CardHeader>
-							<CardTitle>Recent Orders</CardTitle>
-							<CardDescription>
-								A list of your most recent orders.
-							</CardDescription>
+						<CardHeader className="text-2xl font-semibold">
+							Recent Activities
 						</CardHeader>
-						<CardContent>
-							<div className="grid gap-3">
-								<div className="flex items-center justify-between">
-									<div className="flex items-center gap-3">
-										<img
-											src="/placeholder.svg"
-											width={48}
-											height={48}
-											alt="Product Image"
-											className="rounded-md"
-											style={{ aspectRatio: "48/48", objectFit: "cover" }}
-										/>
-										<div>
-											<div className="font-medium">Product Name</div>
-											<div className="text-sm text-muted-foreground">
-												Order #123
-											</div>
-										</div>
-									</div>
-									<div className="text-lg font-bold">$25</div>
-								</div>
-								<div className="flex items-center justify-between">
-									<div className="flex items-center gap-3">
-										<img
-											src="/placeholder.svg"
-											width={48}
-											height={48}
-											alt="Product Image"
-											className="rounded-md"
-											style={{ aspectRatio: "48/48", objectFit: "cover" }}
-										/>
-										<div>
-											<div className="font-medium">Product Name</div>
-											<div className="text-sm text-muted-foreground">
-												Order #124
-											</div>
-										</div>
-									</div>
-									<div className="text-lg font-bold">$35</div>
-								</div>
-								<div className="flex items-center justify-between">
-									<div className="flex items-center gap-3">
-										<img
-											src="/placeholder.svg"
-											width={48}
-											height={48}
-											alt="Product Image"
-											className="rounded-md"
-											style={{ aspectRatio: "48/48", objectFit: "cover" }}
-										/>
-										<div>
-											<div className="font-medium">Product Name</div>
-											<div className="text-sm text-muted-foreground">
-												Order #125
-											</div>
-										</div>
-									</div>
-									<div className="text-lg font-bold">$45</div>
-								</div>
-							</div>
+						<CardContent className="">
+							<Card className="">
+								{currentActivities.map((activity) => (
+									<CardContent key={activity.id} className="pb-0">
+										<Accordion type="single" collapsible className="w-full">
+											<AccordionItem value={`item-${activity.id}`}>
+												<AccordionTrigger>
+													<div className="flex items-center justify-between w-full">
+														<div className="flex flex-col items-center">
+															<span>{activity.name}</span>
+															<span>{formatIso(activity.date)}</span>
+														</div>
+														<Avatar className="">
+															<AvatarImage
+																src={activityTypeToImageMap[activity.type]}
+															/>
+															<AvatarFallback>{activity.type}</AvatarFallback>
+														</Avatar>
+													</div>
+												</AccordionTrigger>
+												<AccordionContent>
+													<div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+														<div className="space-y-2">
+															<p className="flex gap-2 font-medium leading-none">
+																<Ruler className="h-4 w-4" />
+																{convertMetersToMiles(activity.distance)} miles
+															</p>
+															<p className="flex gap-2 font-medium leading-none">
+																<Timer className="h-4 w-4" />
+																{convertSecondsToMinutes(activity.moving_time)}
+															</p>
+															<p className="flex gap-2 font-medium leading-none">
+																<MountainSnow className="h-4 w-4" />
+																{convertMetersToFeet(
+																	activity.total_elevation_gain
+																)}
+																Feet
+															</p>
+														</div>
+														<div className="space-y-2">
+															<p className="flex gap-2 font-medium leading-none">
+																<Activity className="h-4 w-4" />
+																{activity.average_heartrate} bpm
+															</p>
+															<p className="flex gap-2 font-medium leading-none">
+																<HeartCrack className="h-4 w-4" />
+																{activity.suffer_score}
+															</p>
+														</div>
+													</div>
+												</AccordionContent>
+											</AccordionItem>
+										</Accordion>
+									</CardContent>
+								))}
+							</Card>
 						</CardContent>
+						<div className="flex justify-center m-4">
+							{Array.from(
+								{ length: endPage - adjustedStartPage + 1 },
+								(_, i) => (
+									<Button
+										key={i + adjustedStartPage}
+										onClick={() => paginate(i + adjustedStartPage)}
+										className={`px-4 py-2 mx-1 border rounded ${
+											currentPage === i + adjustedStartPage
+												? "bg-blue-500 text-white"
+												: "bg-gray-200"
+										}`}>
+										{i + adjustedStartPage}
+									</Button>
+								)
+							)}
+						</div>
 					</Card>
 				</div>
 			</div>
-		</div>
-	);
-}
-
-function LinechartChart(props) {
-	return (
-		<div {...props}>
-			<ChartContainer
-				config={{
-					desktop: {
-						label: "Desktop",
-						color: "hsl(var(--chart-1))",
-					},
-				}}>
-				<LineChart
-					accessibilityLayer
-					data={[
-						{ month: "January", desktop: 186 },
-						{ month: "February", desktop: 305 },
-						{ month: "March", desktop: 237 },
-						{ month: "April", desktop: 73 },
-						{ month: "May", desktop: 209 },
-						{ month: "June", desktop: 214 },
-					]}
-					margin={{
-						left: 12,
-						right: 12,
-					}}>
-					<CartesianGrid vertical={false} />
-					<XAxis
-						dataKey="month"
-						tickLine={false}
-						axisLine={false}
-						tickMargin={8}
-						tickFormatter={(value) => value.slice(0, 3)}
-					/>
-					<ChartTooltip
-						cursor={false}
-						content={<ChartTooltipContent hideLabel />}
-					/>
-					<Line
-						dataKey="desktop"
-						type="natural"
-						stroke="var(--color-desktop)"
-						strokeWidth={2}
-						dot={false}
-					/>
-				</LineChart>
-			</ChartContainer>
 		</div>
 	);
 }

@@ -12,7 +12,7 @@ export const convertSecondsToMinutes = (seconds: number): string => {
 	return `${minutes}m ${remainingSeconds}s`;
 };
 
-export const formatDateTime = (isoDate: string): string => {
+export const formatIso = (isoDate: string): string => {
 	const date = new Date(isoDate);
 
 	// Extract the date, month
@@ -33,4 +33,13 @@ export const formatDateTime = (isoDate: string): string => {
 	const formattedMinutes = minutes < 10 ? `0${minutes}` : minutes;
 
 	return `${month} ${day} ${year} at ${hours}:${formattedMinutes} ${ampm}`;
+};
+
+export const formatDate = (dateString: string) => {
+	const date = new Date(dateString);
+	return date.toLocaleDateString("en-US", {
+		day: "numeric",
+		month: "long",
+		year: "numeric",
+	});
 };

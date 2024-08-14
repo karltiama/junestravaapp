@@ -43,9 +43,27 @@ const StravaSuccess = () => {
 		return <div>Error: {error}</div>;
 	}
 
+	console.log(data.athlete.firstName);
 	return (
 		<div className="">
-			<Dashboard firstName={data.athlete.firstName} />
+			<Dashboard
+				firstName={data.athlete.firstname}
+				profilePicture={data.athlete.profile_medium}
+				created_at={data.athlete.created_at}
+				runTotalCount={data.athleteStats.all_run_totals.count}
+				runTotalDistance={data.athleteStats.all_run_totals.distance}
+				runYtdCount={data.athleteStats.ytd_run_totals.count}
+				runYtdDistance={data.athleteStats.ytd_run_totals.distance}
+				runRecentCount={data.athleteStats.recent_run_totals.count}
+				runRecentDistance={data.athleteStats.recent_run_totals.distance}
+				bikeTotalCount={data.athleteStats.all_ride_totals.count}
+				bikeTotalDistance={data.athleteStats.all_ride_totals.distance}
+				bikeYtdCount={data.athleteStats.ytd_ride_totals.count}
+				bikeYtdDistance={data.athleteStats.ytd_ride_totals.distance}
+				bikeRecentCount={data.athleteStats.recent_ride_totals.count}
+				bikeRecentDistance={data.athleteStats.recent_ride_totals.distance}
+				activities={data.activities2}
+			/>
 			{/* <LoginInfo
 				firstName={data.athlete.firstname}
 				profilePicture={data.athlete.profile_medium}
