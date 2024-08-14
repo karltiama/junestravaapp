@@ -205,9 +205,9 @@ export default function Dashboard({
 										<TabsTrigger value="biking">Biking</TabsTrigger>
 									</TabsList>
 									<TabsContent value="running">
-										<Card>
+										<Card className="flex flex-col justify-center items-center">
 											<CardHeader>
-												<CardTitle>Running Totals</CardTitle>
+												<CardTitle className="">Running Totals</CardTitle>
 												<CardDescription>You've logged:</CardDescription>
 											</CardHeader>
 											<CardContent className="">
@@ -227,7 +227,7 @@ export default function Dashboard({
 										</Card>
 									</TabsContent>
 									<TabsContent value="biking">
-										<Card>
+										<Card className="flex flex-col justify-center items-center">
 											<CardHeader className="">
 												<CardTitle>Biking Totals</CardTitle>
 												<CardDescription>You've logged:</CardDescription>
