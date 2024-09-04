@@ -208,7 +208,7 @@ export default function Dashboard({
 										<Card className="flex flex-col justify-center items-center">
 											<CardHeader>
 												<CardTitle className="">Running Totals</CardTitle>
-												<CardDescription>You've logged:</CardDescription>
+												<CardDescription>You&apos;ve logged:</CardDescription>
 											</CardHeader>
 											<CardContent className="">
 												<div className="">
@@ -230,7 +230,7 @@ export default function Dashboard({
 										<Card className="flex flex-col justify-center items-center">
 											<CardHeader className="">
 												<CardTitle>Biking Totals</CardTitle>
-												<CardDescription>You've logged:</CardDescription>
+												<CardDescription>You&apos;ve logged:</CardDescription>
 											</CardHeader>
 											<CardContent className="">
 												<div>

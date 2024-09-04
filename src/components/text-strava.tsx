@@ -59,7 +59,7 @@ const TestStrava = () => {
 							<Card>
 								<CardHeader>
 									<CardTitle>Running Totals</CardTitle>
-									<CardDescription>You've logged:</CardDescription>
+									<CardDescription>You&apos;ve logged:</CardDescription>
 								</CardHeader>
 								<CardContent className="space-y-2">
 									<div className="">
@@ -86,7 +86,7 @@ const TestStrava = () => {
 							<Card>
 								<CardHeader className="">
 									<CardTitle>Biking Totals</CardTitle>
-									<CardDescription>You've logged:</CardDescription>
+									<CardDescription>You&apos;ve logged:</CardDescription>
 								</CardHeader>
 								<CardContent className="space-y-2">
 									<div>

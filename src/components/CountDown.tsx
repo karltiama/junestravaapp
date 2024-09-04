@@ -72,7 +72,7 @@ export default function Component() {
 			<CardHeader>
 				<CardTitle>Countdown to Your Event</CardTitle>
 				<CardDescription>
-					Enter a date and we'll show you the time remaining.
+					Enter a date and we&apos;ll show you the time remaining.
 				</CardDescription>
 			</CardHeader>
 			<CardContent>

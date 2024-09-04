@@ -45,7 +45,7 @@ const StravaStats = (props: StravaStatsProps) => {
 							<Card>
 								<CardHeader>
 									<CardTitle>Running Totals</CardTitle>
-									<CardDescription>You've logged:</CardDescription>
+									<CardDescription>You&apos;ve logged:</CardDescription>
 								</CardHeader>
 								<CardContent className="">
 									<div className="">
@@ -67,7 +67,7 @@ const StravaStats = (props: StravaStatsProps) => {
 							<Card>
 								<CardHeader className="">
 									<CardTitle>Biking Totals</CardTitle>
-									<CardDescription>You've logged:</CardDescription>
+									<CardDescription>You&apos;ve logged:</CardDescription>
 								</CardHeader>
 								<CardContent className="">
 									<div>
