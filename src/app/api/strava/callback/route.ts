@@ -50,7 +50,3 @@ export async function GET(req: NextRequest) {
 
 	return nextResponse;
 }
-
-export function getAccessToken(req: NextRequest) {
-	return req.cookies.get("accessToken");
-}
