@@ -1,16 +1,29 @@
 "use client";
-import ActivityList from "@/components/ActivityList";
-import CountDown from "@/components/CountDown";
+import { useEffect, useState, useMemo } from "react";
 import Dashboard from "@/components/Dashboard";
 import DashboardLoading from "@/components/DashboardLoading";
-import { LoginInfo } from "@/components/LoginInfo";
-import PaceCalculator from "@/components/PaceCalculator";
-import { RunningChart } from "@/components/RunningChart";
-import StravaStats from "@/components/StravaStats";
-import { useEffect, useState } from "react";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { AlertCircle } from "lucide-react";
 
-const StravaSuccess = () => {
-	const [data, setData] = useState<any>(null);
+interface StravaData {
+	athlete: {
+		firstname: string;
+		profile_medium: string;
+		created_at: string;
+	};
+	athleteStats: {
+		all_run_totals: { count: number; distance: number };
+		ytd_run_totals: { count: number; distance: number };
+		recent_run_totals: { count: number; distance: number };
+		all_ride_totals: { count: number; distance: number };
+		ytd_ride_totals: { count: number; distance: number };
+		recent_ride_totals: { count: number; distance: number };
+	};
+	activities2: any[]; // Replace 'any' with a proper activity type
+}
+
+const useStravaData = () => {
+	const [data, setData] = useState<StravaData | null>(null);
 	const [error, setError] = useState<string | null>(null);
 	const [loading, setLoading] = useState(true);
 
@@ -23,7 +36,6 @@ const StravaSuccess = () => {
 					throw new Error("Failed to fetch data from Strava API");
 				}
 				const result = await response.json();
-				console.log("Fetched data:", result); // Log the data to inspect it
 				setData(result);
 				setError(null);
 			} catch (error: any) {
@@ -36,17 +48,15 @@ const StravaSuccess = () => {
 		fetchData();
 	}, []);
 
-	if (loading) {
-		return <DashboardLoading />;
-	}
+	return { data, error, loading };
+};
 
-	if (error) {
-		return <div>Error: {error}</div>;
-	}
+const StravaSuccess = () => {
+	const { data, error, loading } = useStravaData();
 
-	console.log(data.athlete.firstName);
-	return (
-		<div className="">
+	const memoizedDashboard = useMemo(() => {
+		if (!data) return null;
+		return (
 			<Dashboard
 				firstName={data.athlete.firstname}
 				profilePicture={data.athlete.profile_medium}
@@ -65,8 +75,24 @@ const StravaSuccess = () => {
 				bikeRecentDistance={data.athleteStats.recent_ride_totals.distance}
 				activities={data.activities2}
 			/>
-		</div>
-	);
+		);
+	}, [data]);
+
+	if (loading) {
+		return <DashboardLoading />;
+	}
+
+	if (error) {
+		return (
+			<Alert variant="destructive">
+				<AlertCircle className="h-4 w-4" />
+				<AlertTitle>Error</AlertTitle>
+				<AlertDescription>{error}</AlertDescription>
+			</Alert>
+		);
+	}
+
+	return <div className="">{memoizedDashboard}</div>;
 };
 
 export default StravaSuccess;
