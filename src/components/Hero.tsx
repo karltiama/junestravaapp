@@ -19,14 +19,6 @@ export default function Component() {
 						</Button>
 					</div>
 					<div className="mt-12 lg:mt-0 flex-grow">
-						<img
-							src="/fitness.svg"
-							alt="Fitness Illustration"
-							className="w-full h-auto"
-							width="400"
-							height="400"
-							style={{ aspectRatio: "400/400", objectFit: "cover" }}
-						/>
 					</div>
 				</div>
 				<div className="grid grid-cols-1 gap-8 mt-12 lg:grid-cols-3">

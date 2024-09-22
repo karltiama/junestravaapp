@@ -2,44 +2,28 @@ import Image from 'next/image';
 import { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
+
+
 const testimonials = [
   {
     name: "Jane Doe",
     role: "Fitness Enthusiast",
-    image: "",
+    image: "/undraw_female_avatar_efig.svg",
     quote: "This platform has revolutionized my fitness journey. I've never been more motivated!"
   },
   {
     name: "John Smith",
     role: "Marathon Runner",
-    image: "",
+    image: "/undraw_male_avatar_g98d.svg",
     quote: "The goal-setting feature keeps me accountable and pushing for new personal bests."
   },
   {
     name: "Alice Johnson",
     role: "Yoga Instructor",
-    image: "",
+    image: "/undraw_female_avatar_efig.svg",
     quote: "I love how this platform integrates with my existing fitness routine. It's a game-changer!"
   },
-  {
-    name: "Alice Johnson",
-    role: "Yoga Instructor",
-    image: "",
-    quote: "I love how this platform integrates with my existing fitness routine. It's a game-changer!"
-  },
-  {
-    name: "Alice Johnson",
-    role: "Yoga Instructor",
-    image: "",
-    quote: "I love how this platform integrates with my existing fitness routine. It's a game-changer!"
-  },
-  {
-    name: "Alice Johnson",
-    role: "Yoga Instructor",
-    image: "",
-    quote: "I love how this platform integrates with my existing fitness routine. It's a game-changer!"
-  },
-  // Add more testimonials as needed
+  // Removed duplicate entries
 ];
 
 export default function Testimonials() {
@@ -70,7 +54,7 @@ export default function Testimonials() {
                   <CardHeader>
                     <div className="flex items-center justify-center">
                       <Image
-                        src={testimonial.image}
+                        src={testimonial.image || "/default-avatar.png"}
                         alt={testimonial.name}
                         width={50}
                         height={50}
@@ -83,7 +67,7 @@ export default function Testimonials() {
                     </div>
                   </CardHeader>
                   <CardContent className="text-center">
-                    <p className="text-muted-foreground">"{testimonial.quote}"</p>
+                    <p className="text-muted-foreground">{testimonial.quote}</p>
                   </CardContent>
                 </Card>
               </div>
