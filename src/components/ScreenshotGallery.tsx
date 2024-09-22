@@ -3,19 +3,19 @@ import { Card, CardContent } from "@/components/ui/card";
 
 const screenshots = [
   { 
-    src: "/screenshot1.png", 
+    src: "/strava.png", 
     alt: "Dashboard View",
     title: "Comprehensive Dashboard",
     description: "Get a quick overview of your fitness journey with our intuitive dashboard. Track your progress, set goals, and stay motivated."
   },
   { 
-    src: "/screenshot2.png", 
+    src: "/recentactivities.png", 
     alt: "Activity Tracking",
     title: "Detailed Activity Tracking",
     description: "Log and analyze your workouts with precision. Our platform supports various activities and provides in-depth metrics for each session."
   },
   { 
-    src: "/screenshot3.png", 
+    src: "/strava.png", 
     alt: "Goal Setting",
     title: "Smart Goal Setting",
     description: "Set achievable fitness goals and track your progress over time. Our intelligent system helps you stay on track and celebrates your milestones."
@@ -37,7 +37,6 @@ export default function ScreenshotGallery() {
                     alt={screenshot.alt}
                     width={600}
                     height={400}
-                    layout="responsive"
                     className="object-cover"
                   />
                 </CardContent>
