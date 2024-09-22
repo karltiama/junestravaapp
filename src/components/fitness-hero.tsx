@@ -11,7 +11,7 @@ const FitnessHero = () => {
 	return (
 		<div className="flex xl:flex-row flex-col gap-5 relative z-0 max-w-[1400px] mx-auto">
 			<div className="flex-1 lg:pt-36 sm:px-16 px-6">
-				<h1 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-extrabold">
+				<h1 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-extrabold mt-4">
 					Empower your fitness journey -- set goals and track your progress
 				</h1>
 				<p className="text-[20px] sm:text-[24px] lg:text-[27px] text-black-100 font-light mt-5">
