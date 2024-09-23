@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 
 import "./globals.css";
 import { SiteHeader } from "@/components/site-header";
+import { Footer } from "@/components/Footer";
 
 export const metadata: Metadata = {
 	title: "Strava Fitness Stats",
@@ -18,7 +19,7 @@ export default function RootLayout({
 			<body className="relative">
 				<SiteHeader />
 				{children}
-				<footer></footer>
+				<Footer/>
 			</body>
 		</html>
 	);
